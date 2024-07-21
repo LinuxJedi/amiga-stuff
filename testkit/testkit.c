@@ -965,7 +965,7 @@ static void mainmenu(void)
     sprintf(s, "https://github.com/keirf/Amiga-Stuff");
     print_line(&r);
     r.y++;
-    sprintf(s, "build: %s %s", build_date, build_time);
+    sprintf(s, "build: %s %s LinuxJedi Port 2", build_date, build_time);
     print_line(&r);
 
 redo_hz:
@@ -1077,7 +1077,7 @@ static void c_VBLANK_IRQ(struct c_exception_frame *frame)
     stamp16 = cur16;
 
     /* Update mouse pointer coordinates based on mouse input. */
-    joydat = cust->joy0dat;
+    joydat = cust->joy1dat;
     mouse_x += (int8_t)(joydat - vblank_joydat);
     mouse_y += (int8_t)((joydat >> 8) - (vblank_joydat >> 8));
     mouse_x = min_t(int16_t, max_t(int16_t, mouse_x, 0), xres-1);
@@ -1149,7 +1149,7 @@ static void c_SOFT_IRQ(struct c_exception_frame *frame)
     }
 
     /* When LMB is first pressed emit a keycode if we are within a menu box. */
-    lmb = !(ciaa->pra & CIAAPRA_FIR0);
+    lmb = !(ciaa->pra & (CIAAPRA_FIR0 << 1));
     if (lmb && !prev_lmb && (m != NULL)) {
         keycode_buffer = m->c;
         if (m->c == K_CTRL)
@@ -1252,7 +1252,7 @@ void cstart(void)
     cust->cop1lc.p = copper;
     cust->cop2lc.p = copper_2;
 
-    vblank_joydat = cust->joy0dat;
+    vblank_joydat = cust->joy1dat;
 
     wait_bos();
     cust->dmacon = DMA_SETCLR | DMA_COPEN | DMA_DSKEN;

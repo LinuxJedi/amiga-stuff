@@ -251,11 +251,11 @@ void joymousecheck(void)
     r.y++;
 
     ports[0].changed = 1;
-    ports[0].type = T_MOUSE;
+    ports[0].type = T_JOYSTICK;
     ports[0].start_x = 40;
     ports[0].start_y = 65;
     ports[1] = ports[0];
-    ports[1].type = T_JOYSTICK;
+    ports[1].type = T_MOUSE;
     ports[1].start_x = 320;
 
     while (!do_exit) {
